@@ -1,5 +1,5 @@
--- find file
-vim.keymap.set("n", "<C-p>", ":find ")
+-- find file, replaced with telescope
+-- vim.keymap.set("n", "<C-p>", ":find ")
 
 -- move text
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -18,3 +18,10 @@ vim.keymap.set("v", "<leader>rt", ":RemoveGoTags<CR>", { desc = "Remove Go struc
 
 -- copy to clipboard
 vim.keymap.set("v", "<leader>c", "\"+y<CR>")
+
+-- telescope
+local telescope = require('telescope.builtin')
+vim.keymap.set('n', '<C-p>', telescope.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<C-f>', telescope.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>fb', telescope.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>fh', telescope.help_tags, { desc = 'Telescope help tags' })
