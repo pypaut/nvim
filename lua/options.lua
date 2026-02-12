@@ -38,8 +38,8 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 vim.opt.winborder = "rounded"
 
-vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.number = false
+vim.opt.relativenumber = false
 vim.opt.updatetime = 0
 
 vim.g.netrw_banner = false

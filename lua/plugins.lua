@@ -3,9 +3,8 @@ vim.pack.add({
     { src = "https://github.com/tpope/vim-fugitive" },
     { src = "https://github.com/lewis6991/gitsigns.nvim" },
     { src = "https://github.com/folke/tokyonight.nvim" },
-    { src = "https://github.com/ray-x/go.nvim" },
+    -- { src = "https://github.com/ray-x/go.nvim" },
     { src = "https://github.com/stevearc/oil.nvim" },
-    { src = "https://github.com/romus204/go-tagger.nvim" },
     { src = "https://github.com/nvim-lua/plenary.nvim" },
     { src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
     { src = "https://github.com/nvim-telescope/telescope.nvim" },
@@ -14,16 +13,12 @@ vim.pack.add({
     { src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
     { src = "https://github.com/L3MON4D3/LuaSnip" },
     { src = "https://github.com/saadparwaiz1/cmp_luasnip" },
-    { src = "https://github.com/mfussenegger/nvim-dap" },
 
-    -- Configure Delve automatically, see
-    -- https://codeberg.org/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#go-using-delve-directly
-    { src = "https://github.com/leoluz/nvim-dap-go" },
-
-
-    -- Required by nvim-dap-go, see
-    -- https://github.com/leoluz/nvim-dap-go?tab=readme-ov-file#pre-reqs
-    { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+    -- Compile your package with :GoBuild, install it with :GoInstall or test
+    -- it with :GoTest. Run a single test with :GoTestFunc.
+    -- GoBuild, GoInstall, GoTest, GoTestFunc, GoImport, GoDoc, GoDef
+    -- https://github.com/fatih/vim-go/blob/master/doc/vim-go.txt
+    { src = "https://github.com/fatih/vim-go" },
 })
 
 -- telescope
@@ -49,17 +44,6 @@ vim.diagnostic.config({
     signs = true,
     underline = true,
     update_in_insert = false,
-})
-
-vim.api.nvim_create_autocmd('bufWritePost', {
-    pattern = "*.go",
-    callback = function()
-        local cur = vim.fn.getpos('.')
-        vim.api.nvim_command('silent %!goimports')
-        vim.lsp.buf.format()
-        vim.cmd.write()
-        vim.fn.setpos('.', cur)
-    end,
 })
 
 -- cmp
@@ -92,40 +76,10 @@ cmp.setup {
 
 -- The nvim-cmp almost supports LSP's capabilities so you should advertise it to
 -- LSP servers...
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
 vim.lsp.config('gopls', {
-  capabilities = capabilities,
+  capabilities = require('cmp_nvim_lsp').default_capabilities(),
 })
-
--- vim.lsp.config('gdscript', {
---   capabilities = capabilities,
--- })
--- vim.lsp.config('terraformls', {})
 
 vim.lsp.enable('gopls')
 vim.lsp.enable('gdscript')
 vim.lsp.enable('terraformls')
-
--- dap
-local dap = require('dap')
-
--- dap.adapters.delve = {
---     type = 'server',
---     port =
--- }
---
--- dap.configurations.go = {
---     {
---         type = 'dlv';
---         request = 'dap';
---         name = "Launch file";
---         program = "${file}";
---         goPath = function()
---           return '/usr/bin/go'
---         end;
---     }
--- }
-
-vim.keymap.set('n', '<leader>db', dap.toggle_breakpoint, {})
-vim.keymap.set('n', '<leader>dc', dap.continue, {})
