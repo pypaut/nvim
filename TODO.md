@@ -1,0 +1,2 @@
+- [ ] Rm as many plugins as possible
+- [ ] Add cmd "rename" current file
